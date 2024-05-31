@@ -1,0 +1,550 @@
+[
+  {
+        "id": "f1be68f6d04ffaeb",
+        "type": "tab",
+        "label": "Flow Principal",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+  {
+       "id": "a9c0533db1185d71",
+       "type": "comment",
+       "z": "f1be68f6d04ffaeb",
+       "name": "Tipus de pipeta que necessito connectar",
+       "info": "",
+       "x": 480,
+       "y": 240,
+       "wires": []
+   },
+   {
+       "id": "5c12ae6971ccdbaa",
+       "type": "subflow:134a80cdd61c2291",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "x": 1010,
+       "y": 360,
+       "wires": []
+   },
+   {
+       "id": "2752c164b8b2ed98",
+       "type": "Generic BLE in",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "genericBle": "ee481a64063b80e3",
+       "useString": false,
+       "notification": true,
+       "x": 1130,
+       "y": 900,
+       "wires": [
+           []
+       ]
+   },
+   {
+       "id": "f9b3d3efcec7bff5",
+       "type": "Generic BLE in",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "genericBle": "17781f183a527dc2",
+       "useString": false,
+       "notification": true,
+       "x": 1130,
+       "y": 960,
+       "wires": [
+           []
+       ]
+   },
+   {
+       "id": "fec1019b849de917",
+       "type": "s7 in",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "mode": "single",
+       "variable": "PipetaAConectar",
+       "diff": true,
+       "name": "",
+       "x": 120,
+       "y": 360,
+       "wires": [
+           [
+               "5c12ae6971ccdbaa",
+               "dd4ab219a3e71c0c"
+           ]
+       ]
+   },
+   {
+       "id": "80ae5cc6c094b7cf",
+       "type": "subflow:1987d5c9ca080448",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "x": 1020,
+       "y": 440,
+       "wires": []
+   },
+   {
+       "id": "f2404ca0ab002dce",
+       "type": "s7 out",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "variable": "ConnexioP39",
+       "name": "",
+       "x": 940,
+       "y": 840,
+       "wires": []
+   },
+   {
+       "id": "30e5255bb45aa226",
+       "type": "status",
+       "z": "f1be68f6d04ffaeb",
+       "name": "status Picus-39",
+       "scope": [
+           "2752c164b8b2ed98"
+       ],
+       "x": 420,
+       "y": 900,
+       "wires": [
+           [
+               "3acf226b3dc65775"
+           ]
+       ]
+   },
+   {
+       "id": "3acf226b3dc65775",
+       "type": "function",
+       "z": "f1be68f6d04ffaeb",
+       "name": "function 292",
+       "func": "if (global.get(\"EstatComunicacioBLE_sf1\") === undefined) {\n    global.set(\"EstatComunicacioBLE_sf1\", 99);\n}\nif (msg.status.text == \"generic-ble.status.connected\"){\n    global.set(\"ConnexioBle39\", true);\n    global.set(\"EstatComunicacioBLE_sf1\", 1);\n}\nelse if (msg.status.text == \"generic-ble.status.missing\"){\n    global.set(\"ConnexioBle39\", false);\n    global.set(\"EstatComunicacioBLE_sf1\", 2);\n}\nelse if (msg.status.text ==\"generic-ble.status.disconnected\"){\n    global.set(\"ConnexioBle39\", false);\n    global.set(\"EstatComunicacioBLE_sf1\", 3);\n}\nelse if (msg.status.text == \"generic-ble.status.connecting\") {\n    global.set(\"ConnexioBle39\", false);\n    global.set(\"EstatComunicacioBLE_sf1\", 10);\n}\nelse if (msg.status.text == \"generic-ble.status.disconnecting\") {\n    global.set(\"ConnexioBle39\", false);\n    global.set(\"EstatComunicacioBLE_sf1\", 30);\n}\nelse {\n    global.set(\"EstatComunicacioBLE_sf1\", 444);\n}\n\n\nmsg.payload = global.get(\"ConnexioBle39\")\nreturn msg;\n",
+       "outputs": 1,
+       "noerr": 0,
+       "initialize": "",
+       "finalize": "",
+       "libs": [],
+       "x": 710,
+       "y": 900,
+       "wires": [
+           [
+               "0bef7e5dc362f2f5",
+               "f2404ca0ab002dce"
+           ]
+       ]
+   },
+   {
+       "id": "cf0eaad57a963161",
+       "type": "status",
+       "z": "f1be68f6d04ffaeb",
+       "name": "Status Picus-59",
+       "scope": [
+           "f9b3d3efcec7bff5"
+       ],
+       "x": 420,
+       "y": 960,
+       "wires": [
+           [
+               "403471b910c95a32"
+           ]
+       ]
+   },
+   {
+       "id": "403471b910c95a32",
+       "type": "function",
+       "z": "f1be68f6d04ffaeb",
+       "name": "function 293",
+       "func": "if (global.get(\"EstatComunicacioBLE_sf2\") === undefined) {\n    global.set(\"EstatComunicacioBLE_sf2\", 99);\n}\nif (msg.status.text == \"generic-ble.status.connected\"){\n    global.set(\"ConnexioBle59\", true);\n    global.set(\"EstatComunicacioBLE_sf2\", 1);\n}\nelse if (msg.status.text == \"generic-ble.status.missing\"){\n    global.set(\"ConnexioBle59\", false);\n    global.set(\"EstatComunicacioBLE_sf2\", 2);\n}\nelse if (msg.status.text ==\"generic-ble.status.disconnected\"){\n    global.set(\"ConnexioBle59\", false);\n    global.set(\"EstatComunicacioBLE_sf2\", 3);\n}\nelse if (msg.status.text == \"generic-ble.status.connecting\") {\n    global.set(\"ConnexioBle59\", false);\n    global.set(\"EstatComunicacioBLE_sf2\", 10);\n}\nelse if (msg.status.text == \"generic-ble.status.disconnecting\") {\n    global.set(\"ConnexioBle59\", false);\n    global.set(\"EstatComunicacioBLE_sf2\", 30);\n}\nelse {\n    global.set(\"EstatComunicacioBLE_sf2\", 444);\n}\n\n\nmsg.payload = global.get(\"ConnexioBle59\")\nreturn msg;",
+       "outputs": 1,
+       "noerr": 0,
+       "initialize": "",
+       "finalize": "",
+       "libs": [],
+       "x": 710,
+       "y": 960,
+       "wires": [
+           [
+               "34d30634c452c64c",
+               "9f6cfb94a060d171"
+           ]
+       ]
+   },
+   {
+       "id": "0bef7e5dc362f2f5",
+       "type": "debug",
+       "z": "f1be68f6d04ffaeb",
+       "name": "debug 279",
+       "active": false,
+       "tosidebar": true,
+       "console": false,
+       "tostatus": true,
+       "complete": "true",
+       "targetType": "full",
+       "statusVal": "payload",
+       "statusType": "auto",
+       "x": 930,
+       "y": 900,
+       "wires": []
+   },
+   {
+       "id": "34d30634c452c64c",
+       "type": "debug",
+       "z": "f1be68f6d04ffaeb",
+       "name": "debug 280",
+       "active": false,
+       "tosidebar": true,
+       "console": false,
+       "tostatus": true,
+       "complete": "true",
+       "targetType": "full",
+       "statusVal": "payload",
+       "statusType": "auto",
+       "x": 930,
+       "y": 960,
+       "wires": []
+   },
+   {
+       "id": "9f6cfb94a060d171",
+       "type": "s7 out",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "variable": "Connexio59",
+       "name": "",
+       "x": 950,
+       "y": 1020,
+       "wires": []
+   },
+   {
+       "id": "c4b1442c5c35940c",
+       "type": "s7 in",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "mode": "single",
+       "variable": "PipetaADesconectar",
+       "diff": false,
+       "name": "",
+       "x": 120,
+       "y": 440,
+       "wires": [
+           [
+               "80ae5cc6c094b7cf"
+           ]
+       ]
+   },
+   {
+       "id": "b15af6dd9386ab7e",
+       "type": "subflow:32196d70786003ab",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "x": 670,
+       "y": 560,
+       "wires": [
+           [
+               "7b48616aac5cc876"
+           ]
+       ]
+   },
+   {
+       "id": "93c273f42a1eb6be",
+       "type": "function",
+       "z": "f1be68f6d04ffaeb",
+       "name": "function 297",
+       "func": "if (global.get(\"PipetaAConectar\") == 1 && global.get(\"ConnexioBle39\") == true){\n   \n    global.set(\"anularflow59\", true);\n    global.set(\"anularflow39\", false);\n    \n    msg.payload = 1;\n  \nreturn msg;\n\n}\nelse if (global.get(\"PipetaAConectar\") == 2 && global.get(\"ConnexioBle59\") == true) {\n    global.set(\"anularflow39\", true);\n    global.set(\"anularflow59\", false);\n    msg.payload = 2;\nreturn msg;\n}\n\n\n",
+       "outputs": 1,
+       "noerr": 0,
+       "initialize": "",
+       "finalize": "",
+       "libs": [],
+       "x": 290,
+       "y": 600,
+       "wires": [
+           [
+               "bbfeccaa412888f4"
+           ]
+       ]
+   },
+   {
+       "id": "da567e0468d9ca09",
+       "type": "subflow:2b94307f3d1d84d2",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "x": 690,
+       "y": 640,
+       "wires": [
+           [
+               "590c1260c706e9dc"
+           ]
+       ]
+   },
+   {
+       "id": "b12a5df2d21b6aef",
+       "type": "function",
+       "z": "f1be68f6d04ffaeb",
+       "name": "function 301",
+       "func": "// Obtener todas las claves de las variables globales\nvar globalKeys = global.keys();\n\n// Crear un objeto para almacenar todas las variables globales\nvar globalVariables = {};\n\n// Iterar sobre cada clave y obtener su valor\nfor (var i = 0; i < globalKeys.length; i++) {\n    var key = globalKeys[i];\n    globalVariables[key] = global.get(key);\n}\n\n// Asignar las variables globales al payload para mostrarlas\nmsg.payload = globalVariables;\n\nreturn msg;\n",
+       "outputs": 1,
+       "noerr": 0,
+       "initialize": "",
+       "finalize": "",
+       "libs": [],
+       "x": 490,
+       "y": 1180,
+       "wires": [
+           [
+               "b3ca945349053d07"
+           ]
+       ]
+   },
+   {
+       "id": "b3ca945349053d07",
+       "type": "debug",
+       "z": "f1be68f6d04ffaeb",
+       "name": "debug 288",
+       "active": true,
+       "tosidebar": true,
+       "console": false,
+       "tostatus": false,
+       "complete": "payload",
+       "targetType": "msg",
+       "statusVal": "",
+       "statusType": "auto",
+       "x": 490,
+       "y": 1220,
+       "wires": []
+   },
+   {
+       "id": "e888ba591fd1edf9",
+       "type": "inject",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "props": [
+           {
+               "p": "payload"
+           },
+           {
+               "p": "topic",
+               "vt": "str"
+           }
+       ],
+       "repeat": "",
+       "crontab": "",
+       "once": false,
+       "onceDelay": 0.1,
+       "topic": "",
+       "payload": "",
+       "payloadType": "date",
+       "x": 240,
+       "y": 1180,
+       "wires": [
+           [
+               "b12a5df2d21b6aef"
+           ]
+       ]
+   },
+   {
+       "id": "87ea8d72313e2cf6",
+       "type": "catch",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "scope": null,
+       "uncaught": false,
+       "x": 120,
+       "y": 160,
+       "wires": [
+           [
+               "3327d67949973c9c"
+           ]
+       ]
+   },
+   {
+       "id": "3327d67949973c9c",
+       "type": "debug",
+       "z": "f1be68f6d04ffaeb",
+       "name": "debug 290",
+       "active": false,
+       "tosidebar": true,
+       "console": false,
+       "tostatus": false,
+       "complete": "false",
+       "statusVal": "",
+       "statusType": "auto",
+       "x": 350,
+       "y": 160,
+       "wires": []
+   },
+   {
+       "id": "7b48616aac5cc876",
+       "type": "debug",
+       "z": "f1be68f6d04ffaeb",
+       "name": "debug 295",
+       "active": false,
+       "tosidebar": true,
+       "console": false,
+       "tostatus": true,
+       "complete": "payload",
+       "targetType": "msg",
+       "statusVal": "payload",
+       "statusType": "auto",
+       "x": 910,
+       "y": 560,
+       "wires": []
+   },
+   {
+       "id": "ba92fef56261b96b",
+       "type": "s7 out",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "variable": "Resposta",
+       "name": "",
+       "x": 1160,
+       "y": 580,
+       "wires": []
+   },
+   {
+       "id": "44e13c7ef9ddda21",
+       "type": "s7 in",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "mode": "single",
+       "variable": "ComandaActual",
+       "diff": true,
+       "name": "",
+       "x": 140,
+       "y": 680,
+       "wires": [
+           [
+               "b70a4f7ada6b438c",
+               "93c273f42a1eb6be"
+           ]
+       ]
+   },
+   {
+       "id": "590c1260c706e9dc",
+       "type": "debug",
+       "z": "f1be68f6d04ffaeb",
+       "name": "debug 304",
+       "active": false,
+       "tosidebar": true,
+       "console": false,
+       "tostatus": true,
+       "complete": "payload",
+       "targetType": "msg",
+       "statusVal": "payload",
+       "statusType": "auto",
+       "x": 930,
+       "y": 640,
+       "wires": []
+   },
+   {
+       "id": "b70a4f7ada6b438c",
+       "type": "function",
+       "z": "f1be68f6d04ffaeb",
+       "name": "function 333",
+       "func": "if (msg.payload != ''){\n    msg.payload = true; \n    return msg;\n}\nelse {\n    msg.payload = false;\n    return msg;}",
+       "outputs": 1,
+       "noerr": 0,
+       "initialize": "",
+       "finalize": "",
+       "libs": [],
+       "x": 210,
+       "y": 800,
+       "wires": [
+           [
+               "a660f9ddaf092fee"
+           ]
+       ]
+   },
+   {
+       "id": "a660f9ddaf092fee",
+       "type": "s7 out",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "variable": "ComandaRebudaNodeRED",
+       "name": "",
+       "x": 260,
+       "y": 840,
+       "wires": []
+   },
+   {
+       "id": "dc8552ac39859e6f",
+       "type": "s7 out",
+       "z": "f1be68f6d04ffaeb",
+       "endpoint": "67022575a8de4878",
+       "variable": "ErrorsNodeRED",
+       "name": "",
+       "x": 640,
+       "y": 700,
+       "wires": []
+   },
+   {
+       "id": "dd4ab219a3e71c0c",
+       "type": "function",
+       "z": "f1be68f6d04ffaeb",
+       "name": "function 353",
+       "func": "\nif (global.get(\"PipetaAConectar\") === undefined) {\n    global.set(\"PipetaAConectar\", 99);\n}\n\nglobal.set(\"PipetaAConectar\", msg.payload );\n\n",
+       "outputs": 1,
+       "noerr": 0,
+       "initialize": "",
+       "finalize": "",
+       "libs": [],
+       "x": 290,
+       "y": 320,
+       "wires": [
+           []
+       ]
+   },
+   {
+       "id": "bbfeccaa412888f4",
+       "type": "switch",
+       "z": "f1be68f6d04ffaeb",
+       "name": "",
+       "property": "payload",
+       "propertyType": "msg",
+       "rules": [
+           {
+               "t": "eq",
+               "v": "1",
+               "vt": "num"
+           },
+           {
+               "t": "eq",
+               "v": "2",
+               "vt": "num"
+           },
+           {
+               "t": "eq",
+               "v": "3",
+               "vt": "num"
+           }
+       ],
+       "checkall": "true",
+       "repair": false,
+       "outputs": 3,
+       "x": 450,
+       "y": 600,
+       "wires": [
+           [
+               "b15af6dd9386ab7e",
+               "ba67a542bb8f0b40"
+           ],
+           [
+               "da567e0468d9ca09"
+           ],
+           [
+               "dc8552ac39859e6f"
+           ]
+       ]
+   },
+   {
+       "id": "ba67a542bb8f0b40",
+       "type": "debug",
+       "z": "f1be68f6d04ffaeb",
+       "name": "debug 336",
+       "active": true,
+       "tosidebar": true,
+       "console": false,
+       "tostatus": false,
+       "complete": "payload",
+       "targetType": "msg",
+       "statusVal": "",
+       "statusType": "auto",
+       "x": 550,
+       "y": 780,
+       "wires": []
+   }
+]
